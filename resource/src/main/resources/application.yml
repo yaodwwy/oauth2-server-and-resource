@@ -1,0 +1,21 @@
+server:
+  port: 8090
+spring:
+  application:
+    name: resource
+###actuator start####
+endpoints:
+  health:
+    sensitive: false
+    enabled: true
+##401:Unauthorized
+management:
+  security:
+    enabled: false
+###actuator end####
+security:
+  oauth2:
+    resource:
+      id: resource
+      user-info-uri: http://127.0.0.1:8080/user
+      prefer-token-info: false

@@ -1,0 +1,3 @@
+rootProject.name = 'oauth2-server-and-resource'
+include 'resource'
+include 'authorization-server'
