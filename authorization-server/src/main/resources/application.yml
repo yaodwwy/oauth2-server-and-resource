@@ -3,7 +3,7 @@ server:
 
 spring:
   application:
-    name: auth2.0-center
+    name: oauth2-center
 #  zipkin:
 #      base-url: http://10.10.8.2:9050
   jpa:
