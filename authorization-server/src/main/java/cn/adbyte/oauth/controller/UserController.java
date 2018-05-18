@@ -9,6 +9,9 @@ import java.security.Principal;
 public class UserController {
     @RequestMapping("/user")
     public Principal user(Principal user) {
+        if (user == null) {
+            user = () -> "用户为空";
+        }
         return user;
     }
 }

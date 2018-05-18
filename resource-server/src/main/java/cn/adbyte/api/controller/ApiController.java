@@ -9,15 +9,17 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/")
 public class ApiController {
+
     @ResponseBody
     @GetMapping("")
-    public String apiRoot(){
+    public String apiRoot() {
         return "hello api！";
     }
+
     @ResponseBody
     @PreAuthorize("hasAnyAuthority('api/auth')")
     @GetMapping("api/auth")
-    public String api(){
+    public String api() {
         return "auth good!";
     }
 

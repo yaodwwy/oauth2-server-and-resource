@@ -7,15 +7,13 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.ProviderManager;
-import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
 
 import java.util.Arrays;
 
 @SpringBootApplication
-@EnableAuthorizationServer
-public class OAuthApplication {
+public class OAuthServer {
     public static void main(String[] args) {
-        SpringApplication.run(OAuthApplication.class, args);
+        SpringApplication.run(OAuthServer.class, args);
     }
 
 

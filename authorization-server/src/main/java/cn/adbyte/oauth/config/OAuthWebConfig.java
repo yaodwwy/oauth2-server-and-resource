@@ -28,6 +28,7 @@ public class OAuthWebConfig extends WebSecurityConfigurerAdapter {
     public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();
     }
+
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(iUserDetailsService).passwordEncoder(passwordEncoder());
@@ -35,13 +36,30 @@ public class OAuthWebConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http
-                .authorizeRequests()
-                .anyRequest().authenticated()
-                .and()
-                .formLogin().and()
-                .csrf().disable()
-                .httpBasic();
+        http.authorizeRequests()
+                .anyRequest().authenticated()//确保我们应用中的所有请求都需要用户被认证
+                    .and()
+                .requestMatchers().antMatchers("/oauth/**")
+                    .and()
+                .formLogin()//允许用户进行基于表单的认证
+                    .loginPage( "/login")//指定了登录页面的位置
+                    .permitAll()//允许所有用户访问这个页面
+                    .and()
+                .httpBasic();//允许用户使用HTTP基本验证进行认证
+
+//        http.oauth2Login().requestMatchers()
+//                .antMatchers("/api/**","/oauth/**")
+//                .and()
+//            .authorizeRequests()
+//                .antMatchers("/**")
+//                .httpBasic();
+
+//        http.authorizeRequests()
+//                .anyRequest().authenticated()
+//                .and()
+//                .formLogin().and()
+//                .csrf().disable()
+//                .httpBasic();
     }
 
     @Override

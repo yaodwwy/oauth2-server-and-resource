@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
+import org.springframework.data.redis.connection.jedis.JedisClientConfiguration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
@@ -39,16 +40,20 @@ public class OAuthServerConfig extends AuthorizationServerConfigurerAdapter {
     @Autowired
     private DataSource dataSource;
 
+//    @Bean
+//    RedisTokenStore redisTokenStore() {
+//        return new RedisTokenStore(redisConnectionFactory);
+//    }
+    //token存储数据库
     @Bean
-    RedisTokenStore redisTokenStore() {
-        return new RedisTokenStore(redisConnectionFactory);
+    public JdbcTokenStore jdbcTokenStore(){
+        return new JdbcTokenStore(dataSource);
     }
-
     @Primary
     @Bean
     public DefaultTokenServices defaultTokenServices() {
         DefaultTokenServices tokenServices = new DefaultTokenServices();
-        tokenServices.setTokenStore(redisTokenStore());
+        tokenServices.setTokenStore(jdbcTokenStore());
         tokenServices.setSupportRefreshToken(true);
         tokenServices.setAccessTokenValiditySeconds(60 * 60 * 12); // token有效期自定义设置，默认12小时
         tokenServices.setRefreshTokenValiditySeconds(60 * 60 * 24 * 7);//默认30天，这里修改
@@ -68,13 +73,13 @@ public class OAuthServerConfig extends AuthorizationServerConfigurerAdapter {
 
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) {
-        endpoints.tokenStore(redisTokenStore())
+        endpoints.tokenStore(jdbcTokenStore())
                 .userDetailsService(iUserDetailsService)
                 .authenticationManager(authenticationManager);
         endpoints.tokenServices(defaultTokenServices());
 
         endpoints.authenticationManager(authenticationManager);
-        endpoints.tokenStore(redisTokenStore());
+        endpoints.tokenStore(jdbcTokenStore());
     }
 
     @Override

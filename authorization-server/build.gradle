@@ -40,6 +40,8 @@ dependencies {
     compile('com.sun.xml.bind:jaxb-core:2.3.0')
     compile('com.sun.xml.bind:jaxb-impl:2.3.0')
     compile('javax.activation:activation:1.1.1')
+    compile('com.alibaba:druid-spring-boot-starter:1+')
+    compile('redis.clients:jedis:2+')
     compile('org.springframework.boot:spring-boot-starter-data-redis')
     compile('org.springframework.boot:spring-boot-starter-actuator')
     compile('org.springframework.boot:spring-boot-starter-thymeleaf')

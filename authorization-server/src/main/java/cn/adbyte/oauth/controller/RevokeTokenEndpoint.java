@@ -1,6 +1,6 @@
 package cn.adbyte.oauth.controller;
 
-import cn.adbyte.oauth.common.Msg;
+import cn.adbyte.oauth.common.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.oauth2.provider.endpoint.FrameworkEndpoint;
 import org.springframework.security.oauth2.provider.token.ConsumerTokenServices;
@@ -13,16 +13,14 @@ public class RevokeTokenEndpoint {
     @Autowired
     private ConsumerTokenServices consumerTokenServices;
 
-    @RequestMapping(value = "/oauth/token", method= RequestMethod.DELETE)
+    @RequestMapping(value = "/oauth/token", method = RequestMethod.DELETE)
     public @ResponseBody
-    Msg revokeToken(String access_token){
-        Msg msg = new Msg();
-        if (consumerTokenServices.revokeToken(access_token)){
-            msg.setCode(Msg.SUCCESS);
-            msg.setMsg("注销成功");
+    Result revokeToken(String access_token) {
+        Result msg=null;
+        if (consumerTokenServices.revokeToken(access_token)) {
+            msg = Result.success("注销成功");
         }else {
-            msg.setCode(Msg.FAILED);
-            msg.setMsg("注销失败");
+            msg = Result.failed("注销失败");
         }
         return msg;
     }

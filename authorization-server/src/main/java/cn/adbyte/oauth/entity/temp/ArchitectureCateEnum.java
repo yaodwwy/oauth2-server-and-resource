@@ -1,7 +1,6 @@
 package cn.adbyte.oauth.entity.temp;
 
 /**
- * Created by Adam Yao on 2017/12/12.
  * 系统架构类别
  */
 public enum ArchitectureCateEnum {

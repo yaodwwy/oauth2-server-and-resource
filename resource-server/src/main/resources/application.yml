@@ -3,19 +3,14 @@ server:
 spring:
   application:
     name: resource-server
-###actuator start####
-endpoints:
-  health:
-    sensitive: false
-    enabled: true
-##401:Unauthorized
-management:
-  security:
-    enabled: false
-###actuator end####
 security:
   oauth2:
+    client:
+      client-id: client
+      client-secret: 123123
+      access-token-uri: http://localhost:8080/oauth/token
+      user-authorization-uri: http://localhost:8080/oauth/authorize
     resource:
-      id: resource
-      user-info-uri: http://127.0.0.1:8080/user
-      prefer-token-info: false
+      user-info-uri: http://localhost:8080/user
+    authorization:
+      check-token-access: http://localhost:8080/oauth/check_token
