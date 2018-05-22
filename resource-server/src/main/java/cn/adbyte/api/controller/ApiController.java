@@ -17,10 +17,17 @@ public class ApiController {
     }
 
     @ResponseBody
-    @PreAuthorize("hasAnyAuthority('api/auth')")
+//    @PreAuthorize("hasAnyAuthority('api/auth')")
     @GetMapping("api/auth")
     public String api() {
         return "auth good!";
+    }
+
+    @ResponseBody
+//    @PreAuthorize("hasAnyAuthority('api/auth')")
+    @GetMapping("hi")
+    public String hi() {
+        return "hi!";
     }
 
 }

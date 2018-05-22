@@ -19,11 +19,21 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(HttpSecurity http) throws Exception {
-        http.csrf().disable();
-        http.requestMatchers().antMatchers("/oauth/**")
+        http.authorizeRequests()
+                .anyRequest().authenticated()//确保我们应用中的所有请求都需要用户被认证
                 .and()
-                .authorizeRequests()
-                .antMatchers("/oauth/**").authenticated();
+                .requestMatchers().antMatchers("/oauth/**")
+                .and()
+                .formLogin()//允许用户进行基于表单的认证
+                .loginPage( "/login")//指定了登录页面的位置
+                .permitAll()//允许所有用户访问这个页面
+                .and()
+                .httpBasic();//允许用户使用HTTP基本验证进行认证
+//        http.csrf().disable();
+//        http.requestMatchers().antMatchers("/oauth/**")
+//                .and()
+//                .authorizeRequests()
+//                .antMatchers("/oauth/**").authenticated();
     }
 
     @Bean

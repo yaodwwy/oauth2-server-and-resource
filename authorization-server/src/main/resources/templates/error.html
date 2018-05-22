@@ -1,1 +1,9 @@
-<h2>invalid parameter!</h2>
+<!--suppress ThymeleafVariablesResolveInspection -->
+<html xmlns:th="http://www.thymeleaf.org">
+<a href="/" th:href="@{/}">返回首页</a>
+<h1><div th:text="${'HTTP状态码：'+ status}"></div></h1>
+<div th:text="${'错误发生的时间：'+ #dates.format(timestamp, 'yyyy-MM-dd HH:mm:ss')}"></div>
+<div th:text="${'错误原因：'+ error}"></div>
+<div th:text="${'异常的类名：' + exception}"></div>
+<div th:text="${'异常消息：' +message}"></div>
+<div th:text="${'错误发生时请求的URL路径：'+ path}"></div>

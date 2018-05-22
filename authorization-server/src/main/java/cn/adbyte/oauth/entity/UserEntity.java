@@ -282,7 +282,7 @@ public class UserEntity extends BaseEntity implements UserDetails {
 
     @Override
     public String toString() {
-        return "MemberEntity{" +
+        return "UserEntity{" +
                 "deptID=" + deptID +
                 ", username='" + username + '\'' +
                 ", mobile='" + mobile + '\'' +
