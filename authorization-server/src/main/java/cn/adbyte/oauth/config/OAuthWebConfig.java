@@ -1,5 +1,6 @@
 package cn.adbyte.oauth.config;
 
+import cn.adbyte.oauth.security.LoginSuccessHandler;
 import cn.adbyte.oauth.service.IUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -11,6 +12,8 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 
 @Configuration
 public class OAuthWebConfig extends WebSecurityConfigurerAdapter {
@@ -34,32 +37,38 @@ public class OAuthWebConfig extends WebSecurityConfigurerAdapter {
         auth.userDetailsService(iUserDetailsService).passwordEncoder(passwordEncoder());
     }
 
+    private static final String[] Ignores = {
+            "/oauth/**", "/login","/static/**"
+    };
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-//        http.authorizeRequests()
-//                .anyRequest().authenticated()//确保我们应用中的所有请求都需要用户被认证
-//                    .and()
-//                .requestMatchers().antMatchers("/oauth/**")
-//                    .and()
-//                .formLogin()//允许用户进行基于表单的认证
-////                    .loginPage( "/login")//指定了登录页面的位置
-//                    .permitAll()//允许所有用户访问这个页面
-//                    .and()
-//                .csrf().disable()
-//                .httpBasic();//允许用户使用HTTP基本验证进行认证
 
-//        http.oauth2Login().requestMatchers()
-//                .antMatchers("/api/**","/oauth/**")
-//                .and()
-//            .authorizeRequests()
-//                .antMatchers("/**")
-//                .httpBasic();
+        http.csrf().disable().headers().disable()
+                .authorizeRequests()
+                .antMatchers(Ignores).permitAll()
+                .anyRequest().authenticated()//除以上路径都需要验证
+                    .and()
+                //登录页面url 配置登录成功后调用的方法
+                .formLogin().loginPage("/login")
+                .permitAll().successHandler(loginSuccessHandler())
+                    .and()
+                .csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
+                    .and()
+                //注销登录  默认支持 销毁session并且清空配置的rememberMe()认证 跳转登录页 或配置的注销成功页面
+                .logout().deleteCookies("remove").invalidateHttpSession(false).logoutUrl("/logout")
+                .logoutSuccessUrl("/")
+                    .and()
+                //配置http认证
+                .httpBasic()
+                    .and()
+                //当用户进行重复登录时  强制销毁前一个登录用户  配置此应用必须添加Listener  HttpSessionEventPublisher
+                .sessionManagement().maximumSessions(1).expiredUrl("/login?expired");
 
-        http.authorizeRequests()
-                .anyRequest().authenticated().and()
-                .formLogin().and()
-                .csrf().disable()
-                .httpBasic();
+    }
+
+    private AuthenticationSuccessHandler loginSuccessHandler() {
+        return new LoginSuccessHandler();
     }
 
     @Override

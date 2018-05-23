@@ -63,7 +63,8 @@ public class OAuthServerConfig extends AuthorizationServerConfigurerAdapter {
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
         clients.withClientDetails(clientDetails());
-//        clients.inMemory().withClient("client").secret("secret").authorizedGrantTypes("authorization_code").scopes("app");
+        clients.inMemory().withClient("sso").secret("123123").authorizedGrantTypes("authorization_code","refresh_token").scopes("app","openid");
+        //该配置为SSO客户端配置所需的
     }
 
     @Override

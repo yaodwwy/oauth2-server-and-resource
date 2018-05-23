@@ -1,0 +1,23 @@
+server:
+  port: 8070
+spring:
+  application:
+    name: sso-server
+
+OAuthUrl:
+  host: http://localhost:8080
+  logout: ${OAuthUrl.host}/logout
+
+security:
+  oauth2:
+    client:
+      client-id: sso
+      client-secret: 123123
+      access-token-uri: ${OAuthUrl.host}/oauth/token
+      user-authorization-uri: ${OAuthUrl.host}/oauth/authorize
+    resource:
+      user-info-uri: ${OAuthUrl.host}/user
+    authorization:
+      check-token-access: ${OAuthUrl.host}/oauth/check_token
+    sso:
+      login-path: /login

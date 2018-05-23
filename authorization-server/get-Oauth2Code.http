@@ -1,0 +1,30 @@
+http://localhost:8080/oauth/authorize?grant_type=authorization_code&client_id=client&response_type=code&redirect_uri=http://127.0.0.1:8090
+###
+POST http://localhost:8080/oauth/authorize
+Content-Type: application/x-www-form-urlencoded
+Accept: */*
+Cache-Control: no-cache
+
+grant_type=authorization_code&client_id=client&response_type=code&redirect_uri=http://127.0.0.1:8090
+
+
+###
+POST http://localhost:8080/oauth/token?grant_type=authorization_code&code=bk4V9Y&redirect_uri=http://127.0.0.1:8090
+Accept: */*
+Cache-Control: no-cache
+Authorization: Basic Y2xpZW50OjEyMzEyMw==
+###
+
+### Password 模式
+POST http://localhost:8080/oauth/token
+Content-Type: application/x-www-form-urlencoded
+Cache-Control: no-cache
+Accept: */*
+
+grant_type=password&username=adam&password=123123&client_id=passwd&client_secret=123123&response_type=token
+
+### 测试资源服务
+GET http://localhost:8090/api/auth?access_token=ff428117-c955-4bc5-aba8-a8b0c7fbe45b
+Accept: */*
+Cache-Control: no-cache
+###

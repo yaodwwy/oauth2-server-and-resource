@@ -3,14 +3,21 @@ server:
 spring:
   application:
     name: resource-server
+
+OAuthUrl:
+  host: http://localhost:8080
+  logout: ${OAuthUrl.host}/logout
+
 security:
   oauth2:
     client:
       client-id: client
       client-secret: 123123
-      access-token-uri: http://localhost:8080/oauth/token
-      user-authorization-uri: http://localhost:8080/oauth/authorize
+      access-token-uri: ${OAuthUrl.host}/oauth/token
+      user-authorization-uri: ${OAuthUrl.host}/oauth/authorize
     resource:
-      user-info-uri: http://localhost:8080/user
+      user-info-uri: ${OAuthUrl.host}/user
     authorization:
-      check-token-access: http://localhost:8080/oauth/check_token
+      check-token-access: ${OAuthUrl.host}/oauth/check_token
+    sso:
+      login-path: /login
