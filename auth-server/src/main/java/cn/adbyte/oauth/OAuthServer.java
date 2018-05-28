@@ -16,7 +16,6 @@ public class OAuthServer {
         SpringApplication.run(OAuthServer.class, args);
     }
 
-
     @Autowired
     private AuthenticationProvider authenticationProvider;
 

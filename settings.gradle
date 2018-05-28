@@ -1,4 +1,4 @@
 rootProject.name = 'oauth2-server-and-resource'
 include 'resource-server'
-include 'authorization-server'
+include 'auth-server'
 include 'sso-server'
